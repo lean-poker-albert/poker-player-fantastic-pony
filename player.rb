@@ -19,7 +19,15 @@ class Player
     me = game_state['players'][game_state['in_action']]
     hole_cards = me['hole_cards']
 
-    unless game_state['community_cards'].empty?
+    if game_state['community_cards'].empty?
+      if high_cards?(hole_cards)
+        return game_state['current_buy_in'] - me['bet']
+      end
+    else
+      if Ranking.pair_with_our_card(hole_cards, game_state['community_cards']) and high_cards?(hole_cards)
+        puts "Pair with community card"
+        return 10000
+      end
       if Ranking.three_of_a_kind_with_our_card(hole_cards, game_state['community_cards'])
         puts "Three of a kind"
         return 10000
@@ -59,6 +67,10 @@ class Player
 
   def high_pair?(hole_cards)
     pair?(hole_cards) and [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank'])
+  end
+
+  def high_cards?(hole_cards)
+    [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank']) and [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[1]['rank'])
   end
 
   def pair?(hole_cards)
