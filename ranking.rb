@@ -25,7 +25,7 @@ class Ranking
     end
 
     def pair_on_table(community_cards)
-      community_cards.detect{ |card| community_cards.count(card) > 1 }.size >= 1
+      community_cards.select { |card| community_cards.count(card) > 1 }.size >= 1
     end
   end
 end
