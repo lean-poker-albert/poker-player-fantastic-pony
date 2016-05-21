@@ -20,7 +20,7 @@ class Player
     hole_cards = me['hole_cards']
     my_bet = me['bet'].to_i
     call = game_state['current_buy_in'].to_i - my_bet
-    raise = call + game_state['minimum_raise'].to_i + 200
+    raise_amount = call + game_state['minimum_raise'].to_i + 200
 
     if game_state['community_cards'].empty?
       if high_cards?(hole_cards) and game_state['current_buy_in'].to_i < my_bet * 3
@@ -29,17 +29,17 @@ class Player
     else
       if Ranking.pair_with_our_card(hole_cards, game_state['community_cards'])
         puts "Pair with community card"
-        return raise
+        return raise_amount
       end
       if Ranking.three_of_a_kind_with_our_card(hole_cards, game_state['community_cards'])
         puts "Three of a kind"
-        return raise
+        return raise_amount
       end
     end
 
     if high_pair?(hole_cards)
       puts "high pair"
-      return raise
+      return raise_amount
     end
 
     if game_state['players'].select { |player| player['status'] != 'out' }.size == 2
