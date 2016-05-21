@@ -8,6 +8,10 @@ class Player
   def bet_request(game_state)
     bet = handle_request(game_state)
     puts "Final bet: #{bet}"
+    if bet < 0
+      puts "ERROR: negative bet #{bet}"
+      return 0
+    end
     return bet
   rescue => e
     puts "ERROR: #{e}"
@@ -20,8 +24,10 @@ class Player
     hole_cards = me['hole_cards']
     my_bet = me['bet'].to_i
     call = game_state['current_buy_in'].to_i - my_bet
-    raise_amount = call - my_bet + game_state['minimum_raise'].to_i
-    raise_amount + 200 unless headsup(game_state)
+    raise_amount = call + game_state['minimum_raise'].to_i
+    unless headsup(game_state)
+      raise_amount = raise_amount + 200
+    end
 
     if game_state['community_cards'].empty?
       if high_cards?(hole_cards) and game_state['current_buy_in'].to_i < my_bet * 3
@@ -31,10 +37,12 @@ class Player
 
       if Ranking.three_of_a_kind_with_our_card(hole_cards, game_state['community_cards'])
         puts "Three of a kind"
-        if (game_state['community_cards'].size == 3)
+        if game_state['community_cards'].size == 3
           return 10000
         else
           return raise_amount
+        end
+
       end
       
       if Ranking.two_pair_with_our_cards(hole_cards, game_state['community_cards'])
