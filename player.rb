@@ -5,12 +5,35 @@ class Player
 
   def bet_request(game_state)
     hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
-    if hole_cards[0]['rank'] == hole_cards[1]['rank'] and [10,'J','Q','K','A'].include?(hole_cards[0]['rank'])
-      return 10000
-    elsif ['A','K'].include?(hole_cards[0]['rank']) and ['A','K'].include?(hole_cards[1]['rank']) and hole_cards[0]['suit'] == hole_cards[1]['suit']
+    if high_pair?(hole_cards)
       return 10000
     end
+
+    if ak_suited(hole_cards)
+      return 10000
+    end
+
+    if late_position_preflop(game_state) and small_pot(game_state)
+      return game_state['small_blind'] * 4 * 4 * 10
+    end
+
     0
+  end
+
+  def small_pot(game_state)
+    game_state['pot'] < game_state['small_blind'] * 4 * 4
+  end
+
+  def late_position_preflop(game_state)
+    (game_state['dealer'] + 2) % 4 == game_state['in_action']
+  end
+
+  def ak_suited(hole_cards)
+    ['A', 'K'].include?(hole_cards[0]['rank']) and ['A', 'K'].include?(hole_cards[1]['rank']) and hole_cards[0]['suit'] == hole_cards[1]['suit']
+  end
+
+  def high_pair?(hole_cards)
+    hole_cards[0]['rank'] == hole_cards[1]['rank'] and [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank'])
   end
 
   def showdown(game_state)
