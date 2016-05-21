@@ -14,7 +14,8 @@ class Player
 
   def handle_request(game_state)
     puts game_state
-    hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
+    me = game_state['players'][game_state['in_action']]
+    hole_cards = me['hole_cards']
     if high_pair?(hole_cards)
       puts "high pair"
       return 10000
@@ -28,10 +29,7 @@ class Player
         return 1000
       end
 
-      # if game_state['dealer'] == game_state['in_action'] and small_pot(game_state)
-      #   puts "late position"
-      #   return game_state['small_blind'] * 4 * 4 * 10
-      # end
+      return game_state['current_buy_in'] - me['bet']
     end
 
     0
