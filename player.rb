@@ -18,7 +18,7 @@ class Player
     puts game_state
     me = game_state['players'][game_state['in_action']]
     hole_cards = me['hole_cards']
-    raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise'] + 200
+    raise = game_state['current_buy_in'] + game_state['minimum_raise'] + 200
 
     if game_state['community_cards'].empty?
       if high_cards?(hole_cards) and game_state['current_buy_in'] < me['bet'] * 3
