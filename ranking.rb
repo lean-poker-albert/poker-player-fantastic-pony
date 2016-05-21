@@ -4,7 +4,7 @@ class Ranking
   end
 
   def three_of_a_kind_with(hole_card, community_cards)
-    community_cards.select { |card| card['rank'] == hole_card['rank'] }.size
+    community_cards.select { |card| card['rank'] == hole_card['rank'] }.size == 2
   end
 
 end
