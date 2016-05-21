@@ -7,8 +7,8 @@ class Player
     bet = handle_request(game_state)
     puts "Final bet: #{bet}"
     return bet
-  rescue StandardError => e
-    puts e
+  rescue => e
+    puts "ERROR: #{e}"
     return 0
   end
 
