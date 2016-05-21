@@ -9,12 +9,14 @@ class Player
       return 10000
     end
 
-    if ak_suited(hole_cards)
-      return 500
-    end
+    if game_state['players'].filter { |player| player['status'] == 'active' }.size == 2
+      if ak_suited(hole_cards)
+        return 1000
+      end
 
-    if late_position_preflop(game_state) and small_pot(game_state)
-      return game_state['small_blind'] * 4 * 4 * 10
+      if late_position_preflop(game_state) and small_pot(game_state)
+        return game_state['small_blind'] * 4 * 4 * 10
+      end
     end
 
     0
