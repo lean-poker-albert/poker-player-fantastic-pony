@@ -29,7 +29,10 @@ class Player
         return 1000
       end
 
-      return game_state['current_buy_in'] - me['bet']
+      if pair?(hole_cards)
+        return game_state['current_buy_in'] - me['bet']
+      end
+
     end
 
     0
@@ -45,7 +48,11 @@ class Player
   end
 
   def high_pair?(hole_cards)
-    hole_cards[0]['rank'] == hole_cards[1]['rank'] and [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank'])
+    pair?(hole_cards) and [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank'])
+  end
+
+  def pair?(hole_cards)
+    hole_cards[0]['rank'] == hole_cards[1]['rank']
   end
 
   def showdown(game_state)
