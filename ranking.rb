@@ -2,7 +2,7 @@ class Ranking
   class << self
     def pair_with_our_card(hole_cards, community_cards)
       (pair_with(hole_cards[0], community_cards) && high?(hole_cards[0])) or 
-      (pair_with(hole_cards[1], community_cards) && high?(hole_cards[1])
+      (pair_with(hole_cards[1], community_cards) && high?(hole_cards[1]))
     end
 
     def pair_with(hole_card, community_cards)
