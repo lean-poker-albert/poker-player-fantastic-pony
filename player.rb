@@ -9,15 +9,15 @@ class Player
       return 10000
     end
 
-    if game_state['players'].filter { |player| player['status'] == 'active' }.size == 2
-      if ak_suited(hole_cards)
-        return 1000
-      end
-
-      if game_state['dealer'] == game_state['in_action'] and small_pot(game_state)
-        return game_state['small_blind'] * 4 * 4 * 10
-      end
-    end
+    # if game_state['players'].filter { |player| player['status'] == 'active' }.size == 2
+    #   if ak_suited(hole_cards)
+    #     return 1000
+    #   end
+    #
+    #   if game_state['dealer'] == game_state['in_action'] and small_pot(game_state)
+    #     return game_state['small_blind'] * 4 * 4 * 10
+    #   end
+    # end
 
     0
   end
