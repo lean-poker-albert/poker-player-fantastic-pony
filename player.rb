@@ -28,7 +28,7 @@ class Player
 
     if high_pair?(hole_cards)
       puts "high pair"
-      return game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
+      return game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise'] + rand(300)
     end
 
     if game_state['players'].select { |player| player['status'] != 'out' }.size == 2
