@@ -20,7 +20,7 @@ class Player
       return 10000
     end
 
-    if game_state['players'].filter { |player| player['status'] == 'active' }.size == 2
+    if game_state['players'].select { |player| player['status'] == 'active' }.size == 2
       puts "heads up"
 
       if ak_suited(hole_cards)
