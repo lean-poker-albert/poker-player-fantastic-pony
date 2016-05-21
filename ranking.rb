@@ -15,4 +15,8 @@ class Ranking
     community_cards.select { |card| card['rank'] == hole_card['rank'] }.size == 2
   end
 
+  def two_pair_with_with_our_cards(hole_cards, community_cards)
+    pair_with(hole_cards[0], community_cards) && pair_with(hole_cards[1],community_cards)
+  end
+
 end
