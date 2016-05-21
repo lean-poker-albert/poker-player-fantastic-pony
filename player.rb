@@ -14,7 +14,7 @@ class Player
         return 1000
       end
 
-      if late_position_preflop(game_state) and small_pot(game_state)
+      if game_state['dealer'] == game_state['in_action'] and small_pot(game_state)
         return game_state['small_blind'] * 4 * 4 * 10
       end
     end
@@ -26,9 +26,6 @@ class Player
     game_state['pot'] < game_state['small_blind'] * 4 * 4
   end
 
-  def late_position_preflop(game_state)
-    (game_state['dealer'] + 2) % 4 == game_state['in_action']
-  end
 
   def ak_suited(hole_cards)
     ['A', 'K'].include?(hole_cards[0]['rank']) and ['A', 'K'].include?(hole_cards[1]['rank']) and hole_cards[0]['suit'] == hole_cards[1]['suit']
