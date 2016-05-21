@@ -24,10 +24,7 @@ class Player
     hole_cards = me['hole_cards']
     my_bet = me['bet'].to_i
     call = game_state['current_buy_in'].to_i - my_bet
-    raise_amount = call + game_state['minimum_raise'].to_i
-    unless headsup(game_state)
-      raise_amount = raise_amount + 200
-    end
+    raise_amount = get_raise_amount_by_number_of_players(call, game_state)
 
     if game_state['community_cards'].empty?
       if high_cards?(hole_cards) and game_state['current_buy_in'].to_i < my_bet * 3
@@ -88,8 +85,27 @@ class Player
     0
   end
 
+  def get_raise_amount_by_number_of_players(call, game_state)
+    raise_amount = call + game_state['minimum_raise'].to_i
+    if everyone_plays(game_state)
+      raise_amount = call
+    end
+    unless headsup(game_state)
+      raise_amount = raise_amount + 200
+    end
+    raise_amount
+  end
+
   def headsup(game_state)
-    game_state['players'].select { |player| player['status'] != 'out' }.size == 2
+    active_players(game_state) == 2
+  end
+
+  def everyone_plays(game_state)
+    active_players(game_state) == 4
+  end
+
+  def active_players(game_state)
+    game_state['players'].select { |player| player['status'] != 'out' }.size
   end
 
   def small_pot(game_state)
