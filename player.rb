@@ -27,12 +27,24 @@ class Player
         return call
       end
     else
-      if Ranking.pair_with_our_card(hole_cards, game_state['community_cards'])
-        puts "Pair with community card"
-        return raise_amount
-      end
+
       if Ranking.three_of_a_kind_with_our_card(hole_cards, game_state['community_cards'])
         puts "Three of a kind"
+        return raise_amount
+      end
+      
+      if Ranking.two_pair_with_our_cards(hole_cards, game_state['community_cards'])
+        puts "Two pair"
+        return raise_amount
+      end
+
+       if Ranking.two_pair_with_one_of_mine(hole_cards, game_state['community_cards'])
+        puts "Two pair only one of mine"
+        return raise_amount
+      end
+
+      if Ranking.pair_with_our_card(hole_cards, game_state['community_cards'])
+        puts "Pair with community card"
         return raise_amount
       end
     end
