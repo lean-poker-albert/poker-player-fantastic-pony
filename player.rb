@@ -24,7 +24,7 @@ class Player
         return game_state['current_buy_in'] - me['bet']
       end
     else
-      if Ranking.pair_with_our_card(hole_cards, game_state['community_cards']) and high_cards?(hole_cards)
+      if Ranking.pair_with_our_card(hole_cards, game_state['community_cards'])
         puts "Pair with community card"
         return 10000
       end
