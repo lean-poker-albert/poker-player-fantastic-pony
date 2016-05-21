@@ -10,7 +10,7 @@ class Player
     end
 
     if ak_suited(hole_cards)
-      return 10000
+      return 500
     end
 
     if late_position_preflop(game_state) and small_pot(game_state)
