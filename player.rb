@@ -35,6 +35,8 @@ class Player
           return 10000
         else
           return raise_amount
+        end
+
       end
       
       if Ranking.two_pair_with_our_cards(hole_cards, game_state['community_cards'])
