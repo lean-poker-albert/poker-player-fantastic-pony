@@ -58,6 +58,11 @@ class Player
       return raise_amount
     end
 
+    if middle_pair?(hole_cards)
+      puts "middle pair"
+      return call
+    end
+
     if headsup(game_state)
       puts "heads up"
 
@@ -90,6 +95,10 @@ class Player
 
   def high_pair?(hole_cards)
     pair?(hole_cards) and [10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank'])
+  end
+
+  def middle_pair?(hole_cards)
+    pair?(hole_cards) and [8, 9, 10, 'J', 'Q', 'K', 'A'].include?(hole_cards[0]['rank'])
   end
 
   def high_cards?(hole_cards)

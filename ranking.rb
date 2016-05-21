@@ -1,7 +1,8 @@
 class Ranking
   class << self
     def pair_with_our_card(hole_cards, community_cards)
-      pair_with(hole_cards[0], community_cards) or pair_with(hole_cards[1],community_cards)
+      (pair_with(hole_cards[0], community_cards) && high?(hole_cards[0])) or 
+      (pair_with(hole_cards[1], community_cards) && high?(hole_cards[1])
     end
 
     def pair_with(hole_card, community_cards)
@@ -26,6 +27,10 @@ class Ranking
 
     def pair_on_table(community_cards)
       community_cards.select { |card| community_cards.count(card) > 1 }.size >= 1
+    end
+
+    def high?(card)
+      [8, 9, 10, 'J', 'Q', 'K', 'A'].include?(card['rank'])
     end
   end
 end
