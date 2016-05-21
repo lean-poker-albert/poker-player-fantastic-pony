@@ -20,7 +20,7 @@ class Player
     hole_cards = me['hole_cards']
 
     if game_state['community_cards'].empty?
-      if high_cards?(hole_cards)
+      if high_cards?(hole_cards) and game_state['current_buy_in'] < me['bet'] * 3
         return game_state['current_buy_in'] - me['bet']
       end
     else
