@@ -30,7 +30,10 @@ class Player
 
       if Ranking.three_of_a_kind_with_our_card(hole_cards, game_state['community_cards'])
         puts "Three of a kind"
-        return raise_amount
+        if (game_state['community_cards'].size == 3)
+          return 10000
+        else
+          return raise_amount
       end
       
       if Ranking.two_pair_with_our_cards(hole_cards, game_state['community_cards'])
