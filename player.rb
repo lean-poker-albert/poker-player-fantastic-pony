@@ -18,11 +18,13 @@ class Player
     puts game_state
     me = game_state['players'][game_state['in_action']]
     hole_cards = me['hole_cards']
-    raise = game_state['current_buy_in'] + game_state['minimum_raise'] + 200
+    my_bet = me['bet'].to_i
+    call = game_state['current_buy_in'].to_i - my_bet
+    raise = call + game_state['minimum_raise'].to_i + 200
 
     if game_state['community_cards'].empty?
-      if high_cards?(hole_cards) and game_state['current_buy_in'] < me['bet'] * 3
-        return game_state['current_buy_in'] - me['bet']
+      if high_cards?(hole_cards) and game_state['current_buy_in'].to_i < my_bet * 3
+        return call
       end
     else
       if Ranking.pair_with_our_card(hole_cards, game_state['community_cards'])
@@ -45,11 +47,11 @@ class Player
 
       if ak_suited(hole_cards)
         puts "ak suited"
-        return game_state['current_buy_in'] - me['bet']
+        return call
       end
 
       if pair?(hole_cards)
-        return game_state['current_buy_in'] - me['bet']
+        return call
       end
 
     end
