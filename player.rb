@@ -8,7 +8,11 @@ class Player
   def bet_request(game_state)
     bet = handle_request(game_state)
     puts "Final bet: #{bet}"
-    return [0,bet.floor].max
+    if bet < 0
+      puts "ERROR: negative bet #{bet}"
+      return 0
+    end
+    return bet
   rescue => e
     puts "ERROR: #{e}"
     return 0
