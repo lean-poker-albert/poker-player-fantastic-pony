@@ -20,8 +20,10 @@ class Player
     hole_cards = me['hole_cards']
     my_bet = me['bet'].to_i
     call = game_state['current_buy_in'].to_i - my_bet
-    raise_amount = call - my_bet + game_state['minimum_raise'].to_i
-    raise_amount = raise_amount + 200 unless headsup(game_state)
+    raise_amount = call + game_state['minimum_raise'].to_i
+    unless headsup(game_state)
+      raise_amount = raise_amount + 200
+    end
 
     if game_state['community_cards'].empty?
       if high_cards?(hole_cards) and game_state['current_buy_in'].to_i < my_bet * 3
