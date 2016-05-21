@@ -32,5 +32,21 @@ class Ranking
     def high?(card)
       [8, 9, 10, 'J', 'Q', 'K', 'A'].include?(card['rank'])
     end
+
+    def my_flush(hole_cards, community_cards)
+      most_cards_from_any_suit(hole_cards + community_cards) > 4
+    end
+
+    def open_flush_on_table(community_cards)
+      most_cards_from_any_suit(community_cards) > 2
+    end
+
+    def most_cards_from_any_suit(cards)
+      ['diamonds','spades','hearts','clubs'].map { |suit| cards_from_suit(cards, suit) }.max
+    end
+
+    def cards_from_suit(cards, suit)
+      cards.select { |card| card['rank'] == suit }.size
+    end
   end
 end

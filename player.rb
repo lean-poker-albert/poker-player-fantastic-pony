@@ -26,15 +26,23 @@ class Player
     call = game_state['current_buy_in'].to_i - my_bet
     raise_amount = get_raise_amount_by_number_of_players(call, game_state)
 
-    if game_state['community_cards'].empty?
+    community_cards = game_state['community_cards']
+    if Ranking.my_flush(hole_cards, community_cards)
+      return 10000
+    end
+    if Ranking.open_flush_on_table(community_cards) and game_state['current_buy_in'].to_i > my_bet * 2
+      return 0
+    end
+
+    if community_cards.empty?
       if high_cards?(hole_cards) and game_state['current_buy_in'].to_i < my_bet * 3
         return call
       end
     else
 
-      if Ranking.three_of_a_kind_with_our_card(hole_cards, game_state['community_cards'])
+      if Ranking.three_of_a_kind_with_our_card(hole_cards, community_cards)
         puts "Three of a kind"
-        if game_state['community_cards'].size == 3
+        if community_cards.size == 3
           return 10000
         else
           return raise_amount
@@ -42,17 +50,17 @@ class Player
 
       end
       
-      if Ranking.two_pair_with_our_cards(hole_cards, game_state['community_cards'])
+      if Ranking.two_pair_with_our_cards(hole_cards, community_cards)
         puts "Two pair"
         return raise_amount
       end
 
-       if Ranking.two_pair_with_one_of_mine(hole_cards, game_state['community_cards'])
+       if Ranking.two_pair_with_one_of_mine(hole_cards, community_cards)
         puts "Two pair only one of mine"
         return raise_amount
       end
 
-      if Ranking.pair_with_our_card(hole_cards, game_state['community_cards'])
+      if Ranking.pair_with_our_card(hole_cards, community_cards)
         puts "Pair with community card"
         return raise_amount
       end
