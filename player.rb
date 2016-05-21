@@ -1,4 +1,6 @@
 
+require_relative 'ranking'
+
 class Player
 
   VERSION = 'Ludicrous poker player'
